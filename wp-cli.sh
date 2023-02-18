@@ -1,0 +1,37 @@
+#!/bin/bash
+
+domain=$1
+email="HERE"
+api_key="HERE"
+
+source_path="`find /home -name "$domain"`/public_html"
+user=`find /home -name "$domain" | awk -F '/' '{print $3}'`
+
+function install_wpcli() {
+    echo "runing step install wp-cli ..."
+    if [[ ! -e /usr/bin/wp ]]; then
+        cd /tmp
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+        chmod +x wp-cli.phar
+        mv wp-cli.phar /usr/bin/wp
+    fi
+    if [[ ! -e /usr/bin/php ]]; then
+        ln -s /opt/php-*/bin/php /usr/bin/php
+    fi
+}
+
+function active_update_plugin() {
+    echo "runing step active and update plugin ... "
+    sudo -u $user -i -- wp plugin install cloudflare --activate --allow-root --path=$source_path
+    sudo chown $user: -R $source_path/wp-content/
+    sudo mysql ${user}_data -e "INSERT INTO wp_options (option_name, option_value, autoload) VALUES ('cloudflare_api_key', '${api_key}', 'yes');"
+    sudo mysql ${user}_data -e "INSERT INTO wp_options (option_name, option_value, autoload) VALUES ('cloudflare_api_email', '${email}', 'yes');"
+}
+
+function change_owner() {
+    sudo chown $user: -R $source_path/wp-content/uploads
+}
+
+install_wpcli
+active_update_plugin
+change_owner

@@ -1,0 +1,8 @@
+---
+- name: change IP offshore cover
+  hosts: all
+  become: yes
+  become_method: sudo
+
+  roles:
+    - changeip_offshore

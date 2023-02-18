@@ -1,0 +1,17 @@
+server {
+	server_name {{domain}} www.{{domain}};
+	access_log /var/log/nginx/{{domain}}.access.log;
+	error_log /var/log/nginx/{{domain}}.error.log;
+
+location / {
+	proxy_set_header Host $host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto $scheme;
+
+	# Fix the It appears that your reverse proxy set up is broken error.
+	proxy_pass https://{{rootip}}:443;
+	proxy_read_timeout 900;
+	}
+}
+
