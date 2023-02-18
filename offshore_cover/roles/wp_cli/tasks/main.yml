@@ -8,7 +8,7 @@
     - runwithrootip
 
 - name: run script
-  shell: sudo bash /tmp/wp-cli.sh.sh
+  shell: sudo bash /tmp/wp-cli.sh
   ignore_errors: true
   register: wpcli
   tags: 
