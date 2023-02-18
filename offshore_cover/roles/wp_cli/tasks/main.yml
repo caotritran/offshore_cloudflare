@@ -1,16 +1,19 @@
 ---
 - name: copy scrip to remote host
   template:
-    src: templates/wp-cli.sh.j2
+    src: wp-cli.sh.j2
     dest: /tmp/wp-cli.sh
     mode: 755
-  tag: runwithrootip
+  tags: 
+    - runwithrootip
 
 - name: run script
   shell: sudo bash /tmp/wp-cli.sh.sh
   ignore_errors: true
   register: wpcli
-  tag: runwithrootip
+  tags: 
+    - runwithrootip
   
 - debug: var=wpcli.stdout_lines
-  tag: runwithrootip
+  tags: 
+    - runwithrootip

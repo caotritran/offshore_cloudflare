@@ -6,28 +6,33 @@
     owner: nginx
     group: nginx
     mode: '0644'
-  tag: runwithoffshoreip
+  tags: 
+    - runwithoffshoreip
 
 - name: check syntax nginx
   shell: sudo nginx -t
   register: checksyntax
-  tag: runwithoffshoreip
+  tags: 
+    - runwithoffshoreip
 
 - name: reload nginx if check syntax ok
   shell: sudo nginx -s reload
   when: checksyntax.rc == 0
-  tag: runwithoffshoreip
+  tags: 
+    - runwithoffshoreip
 
 - name: update register email
   shell: /usr/bin/certbot register -m caotritran.14@gmail.com --agree-tos
-  tags: register
   ignore_errors: true
-  tag: runwithoffshoreip
+  tags: 
+    - runwithoffshoreip
 
 - name: request certificate
   shell: /usr/bin/certbot --nginx -d '{{domain}}' --no-redirect --force-renewal
   register: result
-  tag: runwithoffshoreip
+  tags: 
+    - runwithoffshoreip
 
 - debug: var=result.stdout_lines
-  tag: runwithoffshoreip
+  tags: 
+    - runwithoffshoreip
