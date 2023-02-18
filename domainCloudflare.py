@@ -79,6 +79,21 @@ def update_dns_recordA(domain, ip):
     return response
 
 
+def change_origin_mode_ssl(domain):
+    zoneid = get_zoneid(domain)
+    headers = {
+        'X-Auth-Email': '{}'.format(X_Auth_Email),
+        'X-Auth-Key': '{}'.format(X_Auth_Key),
+        'Content-Type': 'application/json',
+    }
+
+    json_data = {
+        'value': 'flexible',
+    }
+
+    response = requests.patch('https://api.cloudflare.com/client/v4/zones/{0}/settings/ssl'.format(zoneid), headers=headers, json=json_data)
+    return response
+
 if __name__ == "__main__":
     table = []
     headers = ["Type", "Name", "Content"]
@@ -95,6 +110,16 @@ if __name__ == "__main__":
         ])
         text = tabulate(table, headers=headers, tablefmt="pretty")
         print(text)
+    else:
+        text = "something went wrong !!!"
+        print(text)
+
+    state_origin = change_origin_mode_ssl(DOMAIN)
+    if state.status_code == 200:
+        text = "Change origin mode SSL to Flexible success, status code {}".format(state.status_code)
+        data = json.loads(state.text)
+        print(text)
+        print(data)
     else:
         text = "something went wrong !!!"
         print(text)
