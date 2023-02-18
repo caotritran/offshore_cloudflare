@@ -1,8 +1,8 @@
 #!/bin/bash
 
-domain="{{ DOMAIN }}"
-email="{{ EMAIL }}"
-api_key="{{API_KEY }}"
+domain="{{ domain }}"
+email="{{ email }}"
+api_key="{{ api_key }}"
 
 source_path="`find /home -name "$domain"`/public_html"
 user=`find /home -name "$domain" | awk -F '/' '{print $3}'`

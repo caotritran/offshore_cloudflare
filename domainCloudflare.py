@@ -2,8 +2,8 @@ from sys import exit
 import requests, json, urllib3, os, re
 from tabulate import tabulate
 
-from dotenv import load_dotenv
-load_dotenv('/opt/.env')
+# from dotenv import load_dotenv
+# load_dotenv('/opt/.env')
 
 X_Auth_Key = "HERE"
 ACCOUNT_ID = "HERE"
