@@ -5,7 +5,7 @@ email="{{ email }}"
 api_key="{{ api_key }}"
 
 source_path="$(find /home -name "$domain" -type d -print -quit)/public_html"
-user=`find /home -name "$domain" | awk -F '/' '{print $3}'`
+user=`find /home -name "$domain" | awk -F '/' '{print $3}'| head -1`
 
 function install_wpcli() {
     echo "runing step install wp-cli ..."
