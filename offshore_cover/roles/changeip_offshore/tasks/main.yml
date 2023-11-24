@@ -27,9 +27,35 @@
   tags: 
     - runwithoffshoreip
 
+- name: stop nginx
+  systemd:
+    name: nginx
+    state: stopped
+  ignore_errors: yes
+  tags: 
+    - runwithoffshoreip
+
+- name: make sure nginx stopped
+  shell: sudo ps aux | grep nginx | grep -v grep | awk '{print $2}' | xargs kill -9
+  ignore_errors: yes
+  tags: 
+    - runwithoffshoreip
+
 - name: request certificate
   shell: /usr/bin/certbot --nginx -d '{{domain}}' --no-redirect --force-renewal
   register: result
+  tags: 
+    - runwithoffshoreip
+
+- name: make sure nginx stopped
+  shell: sudo ps aux | grep nginx | grep -v grep | awk '{print $2}' | xargs kill -9
+  tags: 
+    - runwithoffshoreip
+
+- name: stop nginx
+  systemd:
+    name: nginx
+    state: started
   tags: 
     - runwithoffshoreip
 
