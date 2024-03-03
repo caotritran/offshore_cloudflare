@@ -18,6 +18,7 @@
 - name: reload nginx if check syntax ok
   shell: sudo nginx -s reload
   when: checksyntax.rc == 0
+  ignore_errors: true
   tags: 
     - runwithoffshoreip
 
