@@ -49,6 +49,7 @@
 
 - name: make sure nginx stopped
   shell: sudo ps aux | grep nginx | grep -v grep | awk '{print $2}' | xargs kill -9
+  ignore_errors: yes
   tags: 
     - runwithoffshoreip
 
@@ -56,6 +57,7 @@
   systemd:
     name: nginx
     state: started
+  ignore_errors: yes
   tags: 
     - runwithoffshoreip
 
